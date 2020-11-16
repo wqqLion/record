@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- https://www.cnblogs.com/padding1015/p/5879776.html -->
+  <style>
+    .radius {
+      width: 10px;
+      height: 10px;
+      line-height: 100px;
+      display: block;
+      text-align: center;
+      background-image: radial-gradient(40px at 10px 0px, #fff 10px, #4169E1 10px);
+    }
+
+    .card {
+      width: 130px;
+      height: 37px;
+      background-color: #e6e6e6;
+      border-radius: 10px;
+      position: relative;
+      z-index:10
+    }
+    .card::after{
+      display: inline-block;
+      content: '';
+      width: 10px;
+      height: 10px;
+      line-height: 100px;
+      display: block;
+      text-align: center;
+      background-image: radial-gradient(40px at 10px 0px, #e6e6e6 10px, #4169E1 10px);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 9;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card"></div>
+  <!-- <span class="radius"></span> -->
+</body>
+
+</html>
