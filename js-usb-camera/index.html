@@ -1,0 +1,82 @@
+<!--
+ * @Description: js调用usb摄像头 
+ * @version: 1.1.0
+ * @Author: wqq
+ * @Date: 2020-12-17 09:56:37
+ * @LastEditors: wqq
+ * @LastEditTime: 2020-12-17 10:28:54
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- <canvas></canvas> -->
+  <button id="openCamera">开启摄像头</button>
+  <button id="closeCamera">关闭摄像头</button>
+  <button id="CatchCode">拍照</button>
+  <video id="video" width="800px" height="800px" autoplay></video>
+  <canvas hidden="hidden" id="canvas" width="626" height="800"></canvas>
+</body>
+<script src="../lib/jquery.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('#openCamera').click(function(){
+      open()
+    })
+    $('#closeCamera').click(function(){
+      video.srcObject.getTracks()[0].stop(); 
+    })
+    $('#CatchCode').click(function(){
+      context.drawImage(video, 0, 0, 330, 250);
+      CatchCode();
+    })
+  })
+
+  //将摄像头拍取的图片转换为Base64格式字符串
+function getBase64() {
+	var imgSrc = canvas.toDataURL("image/png");
+	return imgSrc.substring(22);
+};
+
+  //拍照
+  function CatchCode(){
+    var img = getBase64();
+    console.log(img)
+  }
+
+
+  //开启摄像头
+  function open() {
+    canvas = document.getElementById("canvas");
+    context = canvas.getContext("2d");
+
+    video = document.getElementById('video');
+    var videoObj = {
+      "video": true
+    }
+    errBack = function (error) {
+      console.log("Video capture error: ", error.code);
+    };
+    context.drawImage(video, 0, 0, 330, 250);
+
+    //初始化摄像头参数
+    if(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia){
+      console.log('浏览器支持摄像头')
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      navigator.getUserMedia(videoObj,function(stream){
+        video.srcObject = stream;
+        video.play();
+      },errBack);
+    }else{
+      alert('您的浏览器暂不支持此功能,请升级或者使用Chrome浏览器')
+    }
+  }
+</script>
+
+</html>
